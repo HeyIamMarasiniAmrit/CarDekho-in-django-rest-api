@@ -2,12 +2,29 @@ from urllib import request
 
 import status as status
 from django.shortcuts import render
-from .models import car_list
+from .models import car_list,Showroomlist
 from django.http import JsonResponse
-from .api_file.serializers import carSerializers
+from .api_file.serializers import carSerializers, ShowroomlistSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from rest_framework.views import APIView
+
+class Showroom_view(APIView):
+    def get(self, request):
+        showroom = Showroomlist.objects.all()
+        serializer = ShowroomlistSerializer(showroom, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = ShowroomlistSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        else:
+            return Response(serializer.errors)
+
 
 
 @api_view(['GET', 'POST'])
