@@ -2,11 +2,10 @@ from rest_framework import serializers
 from ..models import car_list,Showroomlist
 from rest_framework.serializers import ValidationError
 
-class ShowroomlistSerializer(serializers.ModelSerializer):
-      class Meta:
-          model = Showroomlist
-          fields = "__all__"
-          
+
+
+
+
 def alphanumeric(value):
     if not str(value).isalnum():
         raise serializers.ValidationError("Only alphanumeric characters are allowed")
@@ -31,13 +30,21 @@ def alphanumeric(value):
 #     instance.price = validated_data.get('price', instance.price)
 #     instance.save()
 #     return instance
-# model serializers
 class carSerializers(serializers.ModelSerializer):
+    discounted_price = serializers.SerializerMethodField()
     class Meta:
         model = car_list
         # exclude = ['name']
         fields = '__all__'
         # fields = ['id', 'account_name', 'users', 'created']
+
+    #     custom field
+    def get_discounted_price(self,object):
+        if object.price is not None:
+            discount_price = object.price - 5000
+        else:
+            discount_price = 5000  # Default value when price is None
+        return discount_price
 
     def validate_price(self, value):
         if value <= 20000.00:
@@ -48,3 +55,17 @@ class carSerializers(serializers.ModelSerializer):
         if data['name'] == data['desc']:
             raise serializers.ValidationError("Name and description must be different")
         return data
+
+class ShowroomlistSerializer(serializers.ModelSerializer):
+
+     # showrooms = carSerializers(many=True, read_only=True)
+     # showrooms = serializers.StringRelatedField(many=True)
+    # showrooms = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    showrooms = serializers.HyperlinkedRelatedField(
+         many=True,
+         read_only=True,
+         view_name='car_detail'
+    )
+    class Meta:
+        model = Showroomlist
+        fields = "__all__"
