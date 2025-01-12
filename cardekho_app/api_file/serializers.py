@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import car_list,Showroomlist
+from ..models import car_list,Showroomlist, Review
 from rest_framework.serializers import ValidationError
 
 
@@ -30,12 +30,17 @@ def alphanumeric(value):
 #     instance.price = validated_data.get('price', instance.price)
 #     instance.save()
 #     return instance
+class ReviewSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = "__all__"
 class carSerializers(serializers.ModelSerializer):
     discounted_price = serializers.SerializerMethodField()
+    Reviews = ReviewSerializers(many=True, read_only=True)
     class Meta:
         model = car_list
         # exclude = ['name']
-        fields = '__all__'
+        fields = "__all__"
         # fields = ['id', 'account_name', 'users', 'created']
 
     #     custom field
