@@ -5,10 +5,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
-
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # Showroom Views
 class Showroom_view(APIView):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         showroom = Showroomlist.objects.all()
         serializer = ShowroomlistSerializer(showroom, many=True, context={'request': request})
