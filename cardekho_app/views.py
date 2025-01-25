@@ -1,21 +1,43 @@
 from django.shortcuts import render
-from .models import car_list, Showroomlist
-from .api_file.serializers import carSerializers, ShowroomlistSerializer
+from .models import car_list, Showroomlist, Review
+from .api_file.serializers import carSerializers, ShowroomlistSerializer, ReviewSerializers
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication
 from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
+from rest_framework import mixins, generics
+
+class ReviewDetails(mixins.RetrieveModelMixin, generics.GenericAPIView):
+    queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
+    serializer_class = ReviewSerializers
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+class Reviewlist(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
+    serializer_class = ReviewSerializers  # Replace `YourSerializer` with your actual serializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
 
 # Showroom Views
 class Showroom_view(APIView):
-    authentication_classes = [BasicAuthentication]
-    # permission_classes = [IsAuthenticated]
-    # permission_classes = [AllowAny]
+    # authentication_classes = [BasicAuthentication]
+    # # permission_classes = [IsAuthenticated]
+    # # permission_classes = [AllowAny]
     # permission_classes = [IsAdminUser]
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
+
+
     def get(self, request):
         showroom = Showroomlist.objects.all()
         serializer = ShowroomlistSerializer(showroom, many=True, context={'request': request})
