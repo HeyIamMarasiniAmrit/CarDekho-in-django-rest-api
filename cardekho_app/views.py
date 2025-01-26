@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication
-from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser, , DjangoModelPermissions
+from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser, DjangoModelPermissions
 from rest_framework import mixins, generics
 
 class ReviewDetails(mixins.RetrieveModelMixin, generics.GenericAPIView):
