@@ -6,12 +6,14 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication
-from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
+from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser, , DjangoModelPermissions
 from rest_framework import mixins, generics
 
 class ReviewDetails(mixins.RetrieveModelMixin, generics.GenericAPIView):
     queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
     serializer_class = ReviewSerializers
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [DjangoModelPermissions]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
