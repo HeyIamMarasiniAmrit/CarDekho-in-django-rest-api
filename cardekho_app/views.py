@@ -9,24 +9,33 @@ from rest_framework.authentication import BasicAuthentication,SessionAuthenticat
 from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser, DjangoModelPermissions
 from rest_framework import mixins, generics
 
-class ReviewDetails(mixins.RetrieveModelMixin, generics.GenericAPIView):
+class Reviewlist(generics.ListCreateAPIView):
     queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
     serializer_class = ReviewSerializers
-    authentication_classes = [SessionAuthentication]
-    permission_classes = [DjangoModelPermissions]
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
 
-class Reviewlist(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
-    queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
-    serializer_class = ReviewSerializers  # Replace `YourSerializer` with your actual serializer
+class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializers
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+# class ReviewDetails(mixins.RetrieveModelMixin, generics.GenericAPIView):
+#     queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
+#     serializer_class = ReviewSerializers
+#     authentication_classes = [SessionAuthentication]
+#     permission_classes = [DjangoModelPermissions]
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request, *args, **kwargs)
+
+# class Reviewlist(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+#     queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
+#     serializer_class = ReviewSerializers  # Replace `YourSerializer` with your actual serializer
+
+#     def get(self, request, *args, **kwargs):
+#         return self.list(request, *args, **kwargs)
+
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)
 
 
 
