@@ -14,9 +14,11 @@ class Reviewlist(generics.ListCreateAPIView):
     serializer_class = ReviewSerializers
 
 
+
 class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializers
+    
 
 # class ReviewDetails(mixins.RetrieveModelMixin, generics.GenericAPIView):
 #     queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
