@@ -8,47 +8,73 @@ from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication
 from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser, DjangoModelPermissions
 from rest_framework import mixins, generics
+from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
 
 class Reviewlist(generics.ListCreateAPIView):
     queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
     serializer_class = ReviewSerializers
 
 
-
 class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializers
-    
+
+
 
 # class ReviewDetails(mixins.RetrieveModelMixin, generics.GenericAPIView):
 #     queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
 #     serializer_class = ReviewSerializers
-#     authentication_classes = [SessionAuthentication]
-#     permission_classes = [DjangoModelPermissions]
-
+#
 #     def get(self, request, *args, **kwargs):
 #         return self.retrieve(request, *args, **kwargs)
-
+#
 # class Reviewlist(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
 #     queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
-#     serializer_class = ReviewSerializers  # Replace `YourSerializer` with your actual serializer
-
+#     serializer_class = ReviewSerializers   # Replace `YourSerializer` with your actual serializer
+#     authentication_classes = [SessionAuthentication]
+#     permission_classes = [DjangoModelPermissions]
+#
+#
+#
 #     def get(self, request, *args, **kwargs):
 #         return self.list(request, *args, **kwargs)
-
+#
 #     def post(self, request, *args, **kwargs):
 #         return self.create(request, *args, **kwargs)
 
 
 
 # Showroom Views
+
+class Showroom_viewset(viewsets.ViewSet):
+  def list(self, request):
+    queryset = Showroomlist.objects.all()
+    serializer = ShowroomlistSerializer(queryset, many=True,  context={'request': request})
+    return Response(serializer.data)
+
+  def retrieve(self, request, pk=None):
+    queryset = Showroomlist.objects.all()
+    user = get_object_or_404(queryset, pk=pk)
+    serializer = ShowroomlistSerializer(user, context={'request': request})
+    return Response(serializer.data)
+
+  def create(self, request):
+      serializer = ShowroomlistSerializer( data=request.data)
+      if serializer.is_valid():
+          serializer.save()
+          return Response(serializer.data)
+      else:
+       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class Showroom_view(APIView):
     # authentication_classes = [BasicAuthentication]
     # # permission_classes = [IsAuthenticated]
     # # permission_classes = [AllowAny]
     # permission_classes = [IsAdminUser]
-    authentication_classes = [SessionAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes = [IsAuthenticated]
 
 
     def get(self, request):
