@@ -33,6 +33,7 @@ def alphanumeric(value):
 class ReviewSerializers(serializers.ModelSerializer):
     class Meta:
         model = Review
+        exclude = ('car',)
         fields = "__all__"
 class carSerializers(serializers.ModelSerializer):
     discounted_price = serializers.SerializerMethodField()
