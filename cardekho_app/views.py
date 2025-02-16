@@ -11,14 +11,26 @@ from rest_framework import mixins, generics
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 
-class Reviewlist(generics.ListCreateAPIView):
-    queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
+class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializers
+
+    def perform_create(self, serializer):
+        pk = self.kwargs['pk']
+        cars = car_list.objects.get(pk=pk)
+        serializer.save(car=cars)
+
+class Reviewlist(generics.ListAPIView):
+    # queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
+    serializer_class = ReviewSerializers
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Review.objects.filter(car=pk)
 
 
 class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializers
+
 
 
 
