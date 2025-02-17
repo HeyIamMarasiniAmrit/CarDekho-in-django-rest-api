@@ -31,9 +31,10 @@ def alphanumeric(value):
 #     instance.save()
 #     return instance
 class ReviewSerializers(serializers.ModelSerializer):
+    apiuser = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = Review
-        exclude = ('car',)
+        # exclude = ('car',)
         fields = "__all__"
 class carSerializers(serializers.ModelSerializer):
     discounted_price = serializers.SerializerMethodField()
@@ -75,3 +76,5 @@ class ShowroomlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Showroomlist
         fields = "__all__"
+
+
