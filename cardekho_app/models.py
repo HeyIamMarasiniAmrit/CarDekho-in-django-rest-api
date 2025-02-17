@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from django.contrib.auth.models import User
 
 def alphanumeric(value):
     if not str(value).isalnum():
@@ -28,6 +28,7 @@ class car_list(models.Model):
         return self.name
 
 class Review(models.Model):
+    apiuser = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField(validators=[MaxValueValidator, MinValueValidator])
     comments = models.CharField(max_length=200, null=True)
     car = models.ForeignKey(car_list,on_delete=models.CASCADE, related_name="Reviews", null=True)
