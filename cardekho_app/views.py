@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import car_list, Showroomlist, Review
 from .api_file.serializers import carSerializers, ShowroomlistSerializer, ReviewSerializers
+from .api_file.permission import AdminOrReadOnlyPermission, ReviewUserOrReadOnlyPermission
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -37,6 +38,7 @@ class Reviewlist(generics.ListAPIView):
 class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializers
+    permission_classes = [AdminOrReadOnlyPermission]
 
 
 
@@ -181,3 +183,4 @@ def car_detail_view(request, pk):
     if request.method == 'DELETE':
         car.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
