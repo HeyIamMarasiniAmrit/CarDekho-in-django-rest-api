@@ -6,3 +6,7 @@
 
 admin 
 ![Image](https://github.com/user-attachments/assets/46930292-3157-4d0c-9236-0553e84709bf)
+
+
+test on api in postman
+![Image](https://github.com/user-attachments/assets/83e57b14-5273-4d3a-bace-fb9d78e4f7e4)
