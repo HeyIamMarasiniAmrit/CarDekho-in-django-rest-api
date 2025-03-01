@@ -10,3 +10,6 @@ admin
 
 test on api in postman
 ![Image](https://github.com/user-attachments/assets/83e57b14-5273-4d3a-bace-fb9d78e4f7e4)
+
+username , email  password gernerated check in postman
+![Image](https://github.com/user-attachments/assets/d2928250-7e16-4687-95b0-85a9c1eceacf)
