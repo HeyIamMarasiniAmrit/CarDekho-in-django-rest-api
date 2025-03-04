@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token  # Correct import
 from user_app.api.serializers import Registerserializer
 from rest_framework.authentication import TokenAuthentication
+from rest_framework_simplejwt.tokens import RefreshToken
 
 @api_view(['POST'])
 @authentication_classes({TokenAuthentication})
@@ -20,6 +21,11 @@ def logout_view(request):
 def registration_view(request):
     if request.method == 'POST':
         serializer = Registerserializer(data=request.data)
+         refresh = RefreshToken.for_user(user)
+        data ['token'] = {
+             'refresh': str(refresh),
+        'access': str(refresh.access_token),
+        }
         if serializer.is_valid():
             user = serializer.save()
             token, created = Token.objects.get_or_create(user=user)  # Generate token
