@@ -1,4 +1,3 @@
-
 from django.shortcuts import render
 from .models import car_list, Showroomlist, Review
 from .api_file.serializers import carSerializers, ShowroomlistSerializer, ReviewSerializers
@@ -14,6 +13,7 @@ from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.throttling import UserRateThrottle,AnonRateThrottle
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializers
 
@@ -34,6 +34,7 @@ class Reviewlist(generics.ListAPIView):
     serializer_class = ReviewSerializers
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
     def get_queryset(self):
         pk = self.kwargs['pk']
         return Review.objects.filter(car=pk)
@@ -43,6 +44,7 @@ class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializers
     permission_classes = [AdminOrReadOnlyPermission]
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
 
 
