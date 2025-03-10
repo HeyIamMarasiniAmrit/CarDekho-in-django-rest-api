@@ -13,8 +13,8 @@ from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.throttling import UserRateThrottle,AnonRateThrottle
-
+from rest_framework.throttling import UserRateThrottle,AnonRateThrottle,ScopedRateThrottle
+from .api_file.throttling import ReviewDetailThrottle,Reviewlistthrottle
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializers
 
@@ -35,7 +35,8 @@ class Reviewlist(generics.ListAPIView):
     serializer_class = ReviewSerializers
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    throttle_scope = 'review_list_scope'
+    throttle_classes = [Reviewlistthrottle, AnonRateThrottle]
     def get_queryset(self):
         pk = self.kwargs['pk']
         return Review.objects.filter(car=pk)
@@ -45,7 +46,8 @@ class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializers
     permission_classes = [AdminOrReadOnlyPermission]
-    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    throttle_scope = 'review_list_scope'
+    throttle_classes = [ReviewDetailThrottle, AnonRateThrottle]
 
 
 
@@ -101,8 +103,6 @@ class Showroom_viewset(viewsets.ModelViewSet):
 #       else:
 #        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #
-
-
 
 class Showroom_view(APIView):
     # authentication_classes = [BasicAuthentication]
