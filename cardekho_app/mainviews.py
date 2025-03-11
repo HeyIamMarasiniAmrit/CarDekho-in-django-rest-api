@@ -15,6 +15,8 @@ from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.throttling import UserRateThrottle,AnonRateThrottle,ScopedRateThrottle
 from .api_file.throttling import ReviewDetailThrottle,Reviewlistthrottle
+from .api_file.pagination import Reviewlistpagination,Reviewlistlimitoffpagination, Reviewlistcursorpag
+
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializers
 
@@ -36,6 +38,7 @@ class Reviewlist(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_scope = 'review_list_scope'
+    pagination_class = Reviewlistpagination, Reviewlistlimitoffpagination
     throttle_classes = [Reviewlistthrottle, AnonRateThrottle]
     def get_queryset(self):
         pk = self.kwargs['pk']
