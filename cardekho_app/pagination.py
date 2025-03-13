@@ -17,3 +17,6 @@ class Reviewlistlimitoffpagination(LimitOffsetPagination):
 class Reviewlistcursorpag(Cursorpagination):
     page_size = 4
     ordering = 'created'
+    page_size_query_param = 'size'
+    max_page_size = 2
+    last_page_strings = 'last
