@@ -7,6 +7,10 @@ class Reviewlistpagination(pageNumberpagination):
     page_size_query_param = 'size'
     max_page_size = 2
     last_page_strings = 'last'
+    default_limit = 5
+    max_limit = 3
+    offset_query_param = 'start'
+    limit_query_param = 'limitsss'
 
 class Reviewlistlimitoffpagination(LimitOffsetPagination):
     default_limit = 5
@@ -20,3 +24,7 @@ class Reviewlistcursorpag(Cursorpagination):
     page_size_query_param = 'size'
     max_page_size = 2
     last_page_strings = 'last
+    default_limit = 5
+    
+    offset_query_param = 'start'
+    limit_query_param = 'limitsss'
