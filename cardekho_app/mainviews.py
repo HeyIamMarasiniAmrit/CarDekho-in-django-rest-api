@@ -136,9 +136,10 @@ class showroom_details(APIView):
         try:
             showroom = Showroomlist.objects.get(pk=pk)
         except Showroomlist.DoesNotExist:
-            return Response({'Error': 'Showroom not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'Error':  'Showroom not found'},  status=status.HTTP_404_NOT_FOUND)
         serializer = ShowroomlistSerializer(showroom)
         return Response(serializer.data)
+        
 
     def put(self, request, pk):
         try:
