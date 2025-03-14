@@ -4,9 +4,9 @@ from rest_framework import serializers
 class Registerserializer(serializers.ModelSerializer):
     password_confirmation = serializers.CharField(style={'input_type':'password'},write_only=True)
 
-    class Meta:
-        model= User
-        fields = ['username', 'email', 'password','password_confirmation']
+     class Meta:
+         model= User
+         fields = ['username', 'email', 'password','password_confirmation']
         extra_kwargs = {
             'username':{'write_only':True}
         }
