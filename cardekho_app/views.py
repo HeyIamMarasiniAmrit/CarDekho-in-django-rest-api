@@ -19,9 +19,13 @@ def logout_view(request):
 
 @api_view(['POST'])
 def registration_view(request):
+    
     if request.method == 'POST':
+        
         serializer = Registerserializer(data=request.data)
+        
          refresh = RefreshToken.for_user(user)
+        
         data ['token'] = {
              'refresh': str(refresh),
         'access': str(refresh.access_token),
