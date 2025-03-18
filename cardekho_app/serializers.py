@@ -18,11 +18,16 @@ class Registerserializer(serializers.ModelSerializer):
 
         if password != password2:
             raise serializers.ValidationError({'error: passwork is not same'})
+            raise serializers.ValidationError({'error: passwork is not same'})
 
         if User.objects.filter(email= self.validated_data['email']).exists():
             
             raise serializers.ValidationError({'error':'Email already exists'})
              raise serializers.ValidationError({'error':'userid already exists'})
+
+        account = User(email = self.validated_data['email'], username = self.validated_data['username'])
+        account.set_password(password)
+        account.save()
 
         account = User(email = self.validated_data['email'], username = self.validated_data['username'])
         account.set_password(password)
