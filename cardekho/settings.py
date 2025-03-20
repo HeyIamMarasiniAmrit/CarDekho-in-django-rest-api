@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-lk*@5e5*+=hu$g&+ilw5bvrm*dx=y14@-az+#k!&v8!qn!k6f='
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -140,6 +141,13 @@ REST_FRAMEWORK = {
          'rest_framework.throttling.ScopedRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
+          'anon': '100/day',
+        'user': '1000/day',
+        'throttling_for_review_details':'5/minute',
+        'throttling_for_review_list':'1/day',
+        'review_list_scope':'3/day',
+
+        'DEFAULT_THROTTLE_RATES': {
           'anon': '100/day',
         'user': '1000/day',
         'throttling_for_review_details':'5/minute',
