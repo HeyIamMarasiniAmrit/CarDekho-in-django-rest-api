@@ -13,8 +13,17 @@ admin
 test on api in postman
 ![Image](https://github.com/user-attachments/assets/83e57b14-5273-4d3a-bace-fb9d78e4f7e4)
 
+![Image](https://github.com/user-attachments/assets/83e57b14-5273-4d3a-bace-fb9d78e4f7e4)
+
+
 username , email  password gernerated check in postman
 ![Image](https://github.com/user-attachments/assets/d2928250-7e16-4687-95b0-85a9c1eceacf)
+
+
+![Image](https://github.com/user-attachments/assets/d2928250-7e16-4687-95b0-85a9c1eceacf)
+
+
+
 
 use JWT JSON Web Tokens
 Authorization: This is the most common scenario for using JWT. Once the user is logged in, each subsequent request will include the JWT, allowing the user to access routes, services, and resources that are permitted with that token. Single Sign On is a feature that widely uses JWT nowadays because of its small overhead and its ability to be easily used across different domains.
