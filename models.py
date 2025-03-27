@@ -9,5 +9,6 @@ class polls(models.Model):
     desc = models.TextField()
 
 
+
 def __str__(self):
     return self.name
