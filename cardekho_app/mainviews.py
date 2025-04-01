@@ -163,8 +163,10 @@ class showroom_details(APIView):
 
 # Car Views
 @api_view(['GET', 'POST'])
+
 def car_list_view(request):
     if request.method == 'GET':
+        
         car = car_list.objects.all()
         serializer = carSerializers(car, many=True)
         return Response(serializer.data)
@@ -188,6 +190,8 @@ def car_detail_view(request, pk):
         serializer = carSerializers(car)
         return Response(serializer.data)
 
+
+    
     if request.method == 'PUT':
         serializer = carSerializers(car, data=request.data)
         if serializer.is_valid():
@@ -195,6 +199,8 @@ def car_detail_view(request, pk):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+    
     if request.method == 'DELETE':
         car.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
