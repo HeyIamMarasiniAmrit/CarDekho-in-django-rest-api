@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 class Registerserializer(serializers.ModelSerializer):
     password_confirmation = serializers.CharField(style={'input_type':'password'},write_only=True)
+    
 
      class Meta:
          model= User
@@ -11,6 +12,7 @@ class Registerserializer(serializers.ModelSerializer):
         extra_kwargs = {
             'username':{'write_only':True}
         }
+
 
     def save(self):
         password = self.validated_data['password']
@@ -20,6 +22,7 @@ class Registerserializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'error: passwork is not same'})
             raise serializers.ValidationError({'error: passwork is not same'})
 
+        
         if User.objects.filter(email= self.validated_data['email']).exists():
             
             raise serializers.ValidationError({'error':'Email already exists'})
@@ -28,6 +31,8 @@ class Registerserializer(serializers.ModelSerializer):
         account = User(email = self.validated_data['email'], username = self.validated_data['username'])
         account.set_password(password)
         account.save()
+
+        
 
         account = User(email = self.validated_data['email'], username = self.validated_data['username'])
         account.set_password(password)
