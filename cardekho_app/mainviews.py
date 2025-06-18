@@ -5,6 +5,7 @@ from .api_file.permission import AdminOrReadOnlyPermission, ReviewUserOrReadOnly
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+
 from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication
 from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser, DjangoModelPermissions
@@ -76,6 +77,9 @@ class ReviewDetails(generics.RetrieveUpdateDestroyAPIView):
 #
 #     def post(self, request, *args, **kwargs):
 #         return self.create(request, *args, **kwargs)
+#
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)
 
 
 
@@ -83,6 +87,9 @@ class Showroom_viewset(viewsets.ModelViewSet):
     queryset = Showroomlist.objects.all()
     serializer_class = ShowroomlistSerializer
 
+class Showroom_viewset(viewsets.ModelViewSet):
+    queryset = Showroomlist.objects.all()
+    serializer_class = ShowroomlistSerializer
 
 
 
