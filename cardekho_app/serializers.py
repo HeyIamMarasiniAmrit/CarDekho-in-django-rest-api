@@ -2,16 +2,18 @@ from django.contrib.auth.models import User
 
 from rest_framework import serializers
 
-class Registerserializer(serializers.ModelSerializer):
-    password_confirmation = serializers.CharField(style={'input_type':'password'},write_only=True)
-    
 
+class Registerserializer(serializers.ModelSerializer):
+    password_confirmation = serializers.CharField (style={'input_type':'password'},write_only=True)
+    
      class Meta:
          model= User
          fields = ['username', 'email', 'password','password_confirmation']
         extra_kwargs = {
             'username':{'write_only':True}
         }
+
+
 
 
     def save(self):
@@ -28,6 +30,9 @@ class Registerserializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'error':'Email already exists'})
              raise serializers.ValidationError({'error':'userid already exists'})
 
+        account = User(email = self.validated_data['email'], username = self.validated_data['username'])
+        account.set_password(password)
+        account.save()
         account = User(email = self.validated_data['email'], username = self.validated_data['username'])
         account.set_password(password)
         account.save()
