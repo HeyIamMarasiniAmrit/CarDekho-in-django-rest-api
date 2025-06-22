@@ -169,6 +169,7 @@ class showroom_details(APIView):
 
 
 # Car Views
+# Creating GET, PUT MEthod
 @api_view(['GET', 'POST'])
 
 def car_list_view(request):
@@ -185,7 +186,7 @@ def car_list_view(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+# Creating GET, PUT, DELETE MEthod
 @api_view(['GET', 'PUT', 'DELETE'])
 def car_detail_view(request, pk):
     try:
@@ -198,6 +199,7 @@ def car_detail_view(request, pk):
         return Response(serializer.data)
 
 
+    # Creating PUT MEthod
     
     if request.method == 'PUT':
         serializer = carSerializers(car, data=request.data)
@@ -207,6 +209,7 @@ def car_detail_view(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+    # Creating DELETE MEthod
     
     if request.method == 'DELETE':
         car.delete()
