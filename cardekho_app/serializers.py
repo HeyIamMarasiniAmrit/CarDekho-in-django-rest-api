@@ -29,6 +29,7 @@ class Registerserializer(serializers.ModelSerializer):
             
             raise serializers.ValidationError({'error':'Email already exists'})
              raise serializers.ValidationError({'error':'userid already exists'})
+            
 
         account = User(email = self.validated_data['email'], username = self.validated_data['username'])
         account.set_password(password)
@@ -37,7 +38,11 @@ class Registerserializer(serializers.ModelSerializer):
         account.set_password(password)
         account.save()
 
-        
+
+        account = User(email = self.validated_data['email'], username = self.validated_data['username'])
+        account.set_password(password)
+        account.save()
+
 
         account = User(email = self.validated_data['email'], username = self.validated_data['username'])
         account.set_password(password)
