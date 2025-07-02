@@ -16,6 +16,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.throttling import UserRateThrottle,AnonRateThrottle,ScopedRateThrottle
 from .api_file.throttling import ReviewDetailThrottle,Reviewlistthrottle
 from .api_file.pagination import Reviewlistpagination,Reviewlistlimitoffpagination, Reviewlistcursorpag
+from .api_file.throttling import ReviewDetailThrottle,Reviewlistthrottle
 
 
 class ReviewCreate(generics.CreateAPIView):
@@ -32,6 +33,18 @@ class ReviewCreate(generics.CreateAPIView):
         if Review_queryset.exists():
             raise ValidationError("you have already reviwed this car")
         serializer.save(car=cars,apiuser=useredit)
+
+class Reviewlist(generics.ListAPIView):
+    # queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
+    serializer_class = ReviewSerializers
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    throttle_scope = 'review_list_scope'
+    pagination_class = Reviewlistpagination, Reviewlistlimitoffpagination
+    throttle_classes = [Reviewlistthrottle, AnonRateThrottle]
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Review.objects.filter(car=pk)
 
 class Reviewlist(generics.ListAPIView):
     # queryset = Review.objects.all()  # Replace `YourModel` with your actual model name
