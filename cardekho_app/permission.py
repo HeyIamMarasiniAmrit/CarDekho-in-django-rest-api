@@ -7,9 +7,10 @@ class AdminOrReadOnlyPermission(permissions.IsAdminUser):
         else:
             return bool(request.user and request.user.is_staff)
 
+
 class ReviewUserOrReadOnlyPermission(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
         else:
-            return obj.apiuser == request.user
+            return obj.apiuser == request.user 
