@@ -1,51 +1,40 @@
 from django.contrib.auth.models import User
-
 from rest_framework import serializers
 
 
-class Registerserializer(serializers.ModelSerializer):
-    password_confirmation = serializers.CharField (style={'input_type':'password'},write_only=True)
-    
-     class Meta:
-         model= User
-         fields = ['username', 'email', 'password','password_confirmation']
+class RegisterSerializer(serializers.ModelSerializer):
+    password_confirmation = serializers.CharField(
+        style={'input_type': 'password'},
+        write_only=True
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'password_confirmation']
         extra_kwargs = {
-            'username':{'write_only':True}
+            'password': {'write_only': True},
+            'email': {'required': True}
         }
 
-
-
-
-    def save(self):
-        password = self.validated_data['password']
-        password = self.validated_data['password_confirmation']
+    def validate(self, data):
+        password = data.get('password')
+        password2 = data.get('password_confirmation')
 
         if password != password2:
-            raise serializers.ValidationError({'error: passwork is not same'})
-            raise serializers.ValidationError({'error: passwork is not same'})
+            raise serializers.ValidationError({"password_confirmation": "Passwords do not match."})
 
-        
-        if User.objects.filter(email= self.validated_data['email']).exists():
-            
-            raise serializers.ValidationError({'error':'Email already exists'})
-             raise serializers.ValidationError({'error':'userid already exists'})
-            
+        if User.objects.filter(email=data.get('email')).exists():
+            raise serializers.ValidationError({"email": "Email already exists."})
 
-        account = User(email = self.validated_data['email'], username = self.validated_data['username'])
-        account.set_password(password)
-        account.save()
-        account = User(email = self.validated_data['email'], username = self.validated_data['username'])
-        account.set_password(password)
-        account.save()
+        return data
 
+    def create(self, validated_data):
+        validated_data.pop('password_confirmation')  # Remove confirmation field
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
-        account = User(email = self.validated_data['email'], username = self.validated_data['username'])
-        account.set_password(password)
-        account.save()
-
-
-        account = User(email = self.validated_data['email'], username = self.validated_data['username'])
-        account.set_password(password)
-        account.save()
-
-        return account
