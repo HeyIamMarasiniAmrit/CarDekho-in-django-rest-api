@@ -2,10 +2,6 @@ from rest_framework import serializers
 from ..models import car_list,Showroomlist, Review
 from rest_framework.serializers import ValidationError
 
-
-
-
-
 def alphanumeric(value):
     if not str(value).isalnum():
         raise serializers.ValidationError("Only alphanumeric characters are allowed")
